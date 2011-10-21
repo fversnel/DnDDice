@@ -3,7 +3,7 @@ import scala.util.Random
 class RollResult private(val rolls: List[Int]) {
 
   def count: Int = rolls.size
-  def total: Int = rolls.reduce(_+_)
+  def total: Int = rolls.sum
 
   override def toString = rolls.map(_.toString).reduce(_ + " " + _)
 }
