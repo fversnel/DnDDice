@@ -1,0 +1,39 @@
+apply plugin: 'scala'
+apply plugin: 'java'
+
+// Properties
+sourceCompatibility = 1.5
+version = '1.0-SNAPSHOT'
+title='DnDDice'
+mainClass='DnDDice'
+env = System.getenv()
+scalaHome = env['SCALA_HOME']
+
+defaultTasks 'clean', 'compileScala'
+
+dependencies {
+	scalaTools fileTree(dir: "$scalaHome/lib").matching { include '*.jar' }
+
+	compile fileTree(dir: "$scalaHome/lib").matching { include 'scala-library.jar' }
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDir 'src/'
+        }
+    }
+}
+
+compileScala {
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': title, 'Implementation-Version': version
+        attributes 'Main-Class': mainClass
+    }
+    dependsOn configurations.runtime
+    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
