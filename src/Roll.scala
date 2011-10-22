@@ -10,7 +10,7 @@ class RollResult (val rolls: List[Int], val modifier: Modifier) {
 	override def toString:String = {
 		val rollsString = rolls.map(_.toString).reduce(_ + " " + _)
 		val modifierString = if (modifier.nonNeutral) " (" + modifier + ")" else ""
-		val totalString = if (dieCount > 1 || modifier.nonNeutral) " [Total:" + total + "]" else ""
+		val totalString = if (dieCount > 1 || modifier.nonNeutral) " [Total: " + total + "]" else ""
 		return rollsString + modifierString + totalString
 	}
 }
