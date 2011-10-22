@@ -5,7 +5,7 @@ apply plugin: 'java'
 sourceCompatibility = 1.5
 version = '1.0-SNAPSHOT'
 title='DnDDice'
-mainClass='DnDDice'
+mainClass='org.frankversnel.dnddice.DnDDice'
 env = System.getenv()
 scalaHome = env['SCALA_HOME']
 
