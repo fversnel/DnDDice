@@ -12,7 +12,7 @@ object DnDDice extends App {
 		val input = Console.readLine.toLowerCase
 
 		if(input.equals("exit")) {
-				isRunning = false
+			isRunning = false
 		} else {
 			Roll(input) match {
 				case Some(roll) => Console.println(roll.perform.toString)
