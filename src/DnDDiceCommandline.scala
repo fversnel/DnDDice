@@ -12,11 +12,10 @@ object DnDDice extends App {
 
 		val input = Console.readLine.toLowerCase
 
-		if(input.equals("exit")) {
-			isRunning = false
-		} else {
-			Roll(input) match {
-				case Some(roll) => Console.println(roll.perform.toString)
+		input match {
+			case "exit" => isRunning = false
+			case _ => Roll(input) match {
+				case Some(roll) => Console.println(roll.perform)
 				case _ => Console.println("Wrong input, try again.")
 			}
 		}

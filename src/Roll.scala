@@ -7,10 +7,11 @@ class RollResult (val rolls: List[Int], val modifier: Modifier) {
 	def dieCount: Int = rolls.size
 	def total: Int = rolls.sum + modifier.value
 
-	override def toString = {
-		rolls.map(_.toString).reduce(_ + " " + _) +
-		" (" + modifier + ")" +
-		" [Total:" + total + "]"
+	override def toString:String = {
+		val rollsString = rolls.map(_.toString).reduce(_ + " " + _)
+		val modifierString = if (modifier.nonNeutral) " (" + modifier + ")" else ""
+		val totalString = if (dieCount > 1 || modifier.nonNeutral) " [Total:" + total + "]" else ""
+		return rollsString + modifierString + totalString
 	}
 }
 
@@ -38,6 +39,7 @@ object Roll extends RollParser {
 }
 
 class Modifier private(val value: Int) {
+	def nonNeutral = value != 0
 	override def toString = if (value >= 0) "+" + value else value.toString
 }
 object Modifier {
