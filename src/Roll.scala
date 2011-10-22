@@ -4,7 +4,7 @@ import scala.util.Random
 
 class RollResult (val rolls: List[Int], val modifier: Modifier) {
 
-	def count: Int = rolls.size
+	def dieCount: Int = rolls.size
 	def total: Int = rolls.sum + modifier.value
 
 	override def toString = {
@@ -14,17 +14,17 @@ class RollResult (val rolls: List[Int], val modifier: Modifier) {
 	}
 }
 
-class Roll private(times: Int, die: Die, modifier: Modifier) {
+class Roll private(val dieCount: Int, val die: Die, val modifier: Modifier) {
 
 	def perform: RollResult = {
-		val rolls = for(i <- 1 to times) yield die.roll
+		val rolls = for(i <- 1 to dieCount) yield die.roll
 		return new RollResult(rolls.toList, modifier)
 	}
 
-	override def toString = times.toString + die.toString + modifier.toString
+	override def toString = dieCount.toString + die.toString + modifier.toString
 }
 object Roll {
-	private val neutralModifier = new Modifier(0)
+	private val neutralModifier = Modifier(0)
 	private val oneThrow = 1
 
 	def apply(input: String): Option[Roll] = {
@@ -32,13 +32,16 @@ object Roll {
 		if (parsedRoll.successful) Some(parsedRoll.get) else None
 	}
 	def apply(die: Die) = new Roll(oneThrow, die, neutralModifier)
-	def apply(times: Int, die: Die) = new Roll(times, die, neutralModifier)
+	def apply(dieCount: Int, die: Die) = new Roll(dieCount, die, neutralModifier)
 	def apply(die: Die, modifier: Modifier) = new Roll(oneThrow, die, modifier)
-	def apply(times: Int, die: Die, modifier: Modifier) = new Roll(times, die, modifier)
+	def apply(dieCount: Int, die: Die, modifier: Modifier) = new Roll(dieCount, die, modifier)
 }
 
-class Modifier(val value: Int) {
+class Modifier private(val value: Int) {
 	override def toString = if (value >= 0) "+" + value else value.toString
+}
+object Modifier {
+	def apply(value: Int) = new Modifier(value)
 }
 
 class Die private(val sides: Int, val numberGenerator: Random) {
