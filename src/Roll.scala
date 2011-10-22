@@ -8,9 +8,9 @@ class RollResult (val rolls: List[Int], val modifier: Modifier) {
 	def total: Int = rolls.sum + modifier.value
 
 	override def toString = {
-			rolls.map(_.toString).reduce(_ + " " + _) +
-			" (" + modifier + ")" +
-			" [Total:" + total + "]"
+		rolls.map(_.toString).reduce(_ + " " + _) +
+		" (" + modifier + ")" +
+		" [Total:" + total + "]"
 	}
 }
 
