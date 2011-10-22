@@ -4,24 +4,24 @@ import scala.util.Random
 
 class RollResult (val rolls: List[Int], val modifier: Modifier) {
 
-  def count: Int = rolls.size
-  def total: Int = rolls.sum + modifier.value
+	def count: Int = rolls.size
+	def total: Int = rolls.sum + modifier.value
 
-  override def toString = {
-    rolls.map(_.toString).reduce(_ + " " + _) +
-        " (" + modifier + ")" +
-        " [Total:" + total + "]"
-  }
+	override def toString = {
+			rolls.map(_.toString).reduce(_ + " " + _) +
+			" (" + modifier + ")" +
+			" [Total:" + total + "]"
+	}
 }
 
 class Roll private(times: Int, die: Die, modifier: Modifier) {
 
-  def perform: RollResult = {
-    val rolls = for(i <- 1 to times) yield die.roll
-    return new RollResult(rolls.toList, modifier)
-  }
+	def perform: RollResult = {
+		val rolls = for(i <- 1 to times) yield die.roll
+		return new RollResult(rolls.toList, modifier)
+	}
 
-  override def toString = times.toString + die.toString + modifier.toString
+	override def toString = times.toString + die.toString + modifier.toString
 }
 object Roll {
 	private val neutralModifier = new Modifier(0)
@@ -38,18 +38,18 @@ object Roll {
 }
 
 class Modifier(val value: Int) {
-  override def toString = if (value >= 0) "+" + value else value.toString
+	override def toString = if (value >= 0) "+" + value else value.toString
 }
 
 class Die private(val sides: Int, val numberGenerator: Random) {
-  private val SideOffset = 1
+	private val SideOffset = 1
 
-  def roll = numberGenerator.nextInt(sides) + SideOffset
-  override def toString = "d" + sides
+	def roll = numberGenerator.nextInt(sides) + SideOffset
+	override def toString = "d" + sides
 }
 object Die {
-  private val NumberGenerator = new Random(System.currentTimeMillis)
+	private val NumberGenerator = new Random(System.currentTimeMillis)
 
-  def apply(sides: Int) = createDie(sides)
-  private def createDie(sides: Int) = new Die(sides, NumberGenerator)
+	def apply(sides: Int) = createDie(sides)
+	private def createDie(sides: Int) = new Die(sides, NumberGenerator)
 }
