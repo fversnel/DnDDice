@@ -2,10 +2,10 @@ package org.frankversnel.dnddice
 
 import scala.util.parsing.combinator._
 
-object RollParser extends JavaTokenParsers {
-	def parse(input: String) = parseAll(roll, input)
+trait RollParser extends JavaTokenParsers {
+	protected def parse(input: String) = parseAll(roll, input)
 
-	//1d20+1
+	// 1d20+1
 	private def roll: Parser[Roll] = opt(dieCount)~die~opt(modifier) ^^ {
 			case None~die~None => Roll(die)
 			case Some(dieCount)~die~None => Roll(dieCount, die)

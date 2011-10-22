@@ -23,12 +23,12 @@ class Roll private(val dieCount: Int, val die: Die, val modifier: Modifier) {
 
 	override def toString = dieCount.toString + die.toString + modifier.toString
 }
-object Roll {
+object Roll extends RollParser {
 	private val neutralModifier = Modifier(0)
 	private val oneThrow = 1
 
 	def apply(input: String): Option[Roll] = {
-		val parsedRoll = RollParser.parse(input)
+		val parsedRoll = parse(input)
 		if (parsedRoll.successful) Some(parsedRoll.get) else None
 	}
 	def apply(die: Die) = new Roll(oneThrow, die, neutralModifier)
