@@ -45,11 +45,11 @@ class Die private(val sides: Int, val numberGenerator: Random) {
 	private val SideOffset = 1
 
 	def roll = numberGenerator.nextInt(sides) + SideOffset
+
 	override def toString = "d" + sides
 }
 object Die {
 	private val NumberGenerator = new Random(System.currentTimeMillis)
 
-	def apply(sides: Int) = createDie(sides)
-	private def createDie(sides: Int) = new Die(sides, NumberGenerator)
+	def apply(sides: Int) = new Die(sides, NumberGenerator)
 }
