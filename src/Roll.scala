@@ -27,10 +27,7 @@ class Roll private(val dieCount: Int, val die: Die, val modifier: Modifier) {
 object Roll extends RollParser {
 	private val oneThrow = 1
 
-	def apply(input: String): Option[Roll] = {
-		val parsedRoll = parse(input)
-		if (parsedRoll.successful) Some(parsedRoll.get) else None
-	}
+	def apply(input: String): Option[Roll] = parse(input)
 	def apply(die: Die) = new Roll(oneThrow, die, Modifier.Neutral)
 	def apply(dieCount: Int, die: Die) = new Roll(dieCount, die, Modifier.Neutral)
 	def apply(die: Die, modifier: Modifier) = new Roll(oneThrow, die, modifier)

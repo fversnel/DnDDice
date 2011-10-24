@@ -3,7 +3,10 @@ package org.frankversnel.dnddice
 import scala.util.parsing.combinator._
 
 trait RollParser extends JavaTokenParsers {
-	protected def parse(input: String) = parseAll(roll, input)
+	protected def parse(input: String): Option[Roll] = {
+        val parsedRoll = parseAll(roll, input)
+		if (parsedRoll.successful) Some(parsedRoll.get) else None
+    }
 
 	// 1d20+1
 	private def roll: Parser[Roll] = opt(dieCount)~die~opt(modifier) ^^ {
