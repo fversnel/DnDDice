@@ -10,9 +10,10 @@ object DnDDice extends App {
 	while(isRunning) {
 		Console.print(Prompt)
 
-		val input = Console.readLine.toLowerCase
+		val input = Console.readLine.trim.toLowerCase
 		input match {
 			case "exit" => isRunning = false
+			case "" => // Do nothing
 			case _ => Roll(input) match {
 				case Some(roll) => Console.println(roll.perform)
 				case _ => Console.println("Wrong input, try again.")
