@@ -11,7 +11,6 @@ object DnDDice extends App {
 		Console.print(Prompt)
 
 		val input = Console.readLine.toLowerCase
-
 		input match {
 			case "exit" => isRunning = false
 			case _ => Roll(input) match {

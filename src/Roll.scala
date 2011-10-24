@@ -25,12 +25,12 @@ class Roll private(val dieCount: Int, val die: Die, val modifier: Modifier) {
 	override def toString = dieCount.toString + die.toString + modifier.toString
 }
 object Roll extends RollParser {
-	private val oneThrow = 1
+	private val OneThrow = 1
 
-	def apply(input: String): Option[Roll] = parse(input)
-	def apply(die: Die) = new Roll(oneThrow, die, Modifier.Neutral)
+	def apply(rollExpression: String): Option[Roll] = parse(rollExpression)
+	def apply(die: Die) = new Roll(OneThrow, die, Modifier.Neutral)
 	def apply(dieCount: Int, die: Die) = new Roll(dieCount, die, Modifier.Neutral)
-	def apply(die: Die, modifier: Modifier) = new Roll(oneThrow, die, modifier)
+	def apply(die: Die, modifier: Modifier) = new Roll(OneThrow, die, modifier)
 	def apply(dieCount: Int, die: Die, modifier: Modifier) = new Roll(dieCount, die, modifier)
 }
 
