@@ -11,6 +11,7 @@ Require the following namespace
 	  (:require [dnddice.core :as dnddice]))
 
 You can use the library as follows:
+
 	=> (dnddice/roll "1d20")
 	{:roll {:sides 20, :die-count 1}, :outcome (7), :sum 7}
 
