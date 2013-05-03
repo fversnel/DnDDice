@@ -31,6 +31,9 @@
               (assoc roll part-type part-content))))))
 
 (defn parse-roll 
+  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier -1}) from an
+  input string, unless the input string is not a valid DnD roll in that case
+  an :invalid-input-error is returned."
   [input-str]
   (->> (roll-parser input-str)
     (insta/transform roll-transform-options)
