@@ -7,8 +7,9 @@
 
 (defn modifier-str [roll]
   (let [modifier (modifier roll)]
-    (let [operator (if (>= modifier 0) "+")]
-      (str operator modifier))))
+    (if (not= modifier 0)
+      (let [operator (if (>= modifier 0) "+")]
+        (str operator modifier)))))
 
 (defn roll-die 
   "Rolls an individual dice."
@@ -44,7 +45,9 @@
   are displayed."
   [die-rolls-max roll-outcome]
   (let [{:keys [outcome sum roll]} roll-outcome]
-    (str "(" (clojure.string/join " " (take die-rolls-max outcome))
+    (let [modifier-str (modifier-str roll)
+          rolls-str (clojure.string/join " " (take die-rolls-max outcome))]
+    (str "(" rolls-str
          (if (> (count outcome) die-rolls-max) "...")
-         " (" (modifier-str roll) ")" ")"
-         " = " sum)))
+         (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
+         " = " sum))))

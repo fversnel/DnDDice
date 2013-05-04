@@ -18,7 +18,7 @@
                       (clojure.string/trim)
                       (clojure.string/lower-case))]
       (when (= input-str "exit") (System/exit 0))
-      (when (not (empty? input-str))
+      (when-not (empty? input-str)
         (let [roll-outcome (core/roll input-str)]
           (if (= roll-outcome :invalid-input-error)
             (println "Invalid input, try again.")

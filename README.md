@@ -5,12 +5,15 @@ and rolls them.
 
 ## Quickstart
 
-Require the following namespace 
+Require the following namespace:
 
 	(ns example.core
 	  (:require [dnddice.core :as dnddice]))
 
 You can use the library as follows:
+
+	=> (dnddice/roll "d20")
+	{:roll {:sides 20}, :outcome (5), :sum 5}
 
 	=> (dnddice/roll "1d20")
 	{:roll {:sides 20, :die-count 1}, :outcome (7), :sum 7}
