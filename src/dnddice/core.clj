@@ -12,37 +12,42 @@
         (str operator modifier)))))
 
 (defn roll-die 
-  "Rolls an individual dice."
+  "Rolls a die of n sides."
   [sides] 
   (+ (rand-int sides) 1))
 
 (defn sum-rolls 
-  "Sums all individual dice rolls plus the modifier."
+  "Sums all die rolls and the modifier."
   [roll-outcome modifier] 
   (+ (reduce + roll-outcome) modifier))
 
-(defn perform-roll [roll] 
+(defn perform-roll  
   "Performs a DnD roll. Returns a lazy seq of all die rolls."
+  [roll]
   (for [_ (range (die-count roll))]
     (roll-die (sides roll))))
 
-(defn roll [input-str]
-  "Parses a string into a DnD roll and rolls it. Returns a map with the roll,
-  the outcome of the roll and the sum of the outcome, unless the input-str is
-  not a valid DnDRoll in that case an :invalid-input-error is returned."
-  (let [parsed-roll (parser/parse-roll input-str)]
-    (if (= parsed-roll :invalid-input-error)
-      :invalid-input-error
-      (let [roll-outcome (perform-roll parsed-roll)
-            summed-outcome (sum-rolls roll-outcome (modifier parsed-roll))]
-        {:roll parsed-roll
-         :outcome roll-outcome
-         :sum summed-outcome}))))
+(defn parse-roll 
+  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier -1}) from an
+  Dungeons and Dragons die roll string (e.g. '1d20'). If the input-str is not
+  a valid DnD roll an :invalid-input-error is returned."
+  [input-str] 
+  (parser/parse-roll input-str))
+
+(defn do-roll 
+  "Performs a a Dungeons and Dragons roll. Returns a map with the roll, the
+  outcome of the roll and the sum of the outcome."
+  [roll]
+  (let [roll-outcome (perform-roll roll)
+        summed-outcome (sum-rolls roll-outcome (modifier roll))]
+    {:roll roll
+     :outcome roll-outcome
+     :sum summed-outcome}))
 
 (defn pretty-roll-outcome-str
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
-  71'. The 'die-rolls-max' variable determines how many individual die rolls
-  are displayed."
+  71'. The 'die-rolls-max' variable determines how many die rolls are
+  printed."
   [die-rolls-max roll-outcome]
   (let [{:keys [outcome sum roll]} roll-outcome]
     (let [modifier-str (modifier-str roll)

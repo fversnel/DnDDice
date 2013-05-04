@@ -12,13 +12,15 @@ Require the following namespace:
 
 You can use the library as follows:
 
-	=> (dnddice/roll "d20")
+	(def dice-d20 (dnddice/parse-roll "d20"))
+
+	=> (dnddice/do-roll dice-d20)
 	{:roll {:sides 20}, :outcome (5), :sum 5}
 
-	=> (dnddice/roll "1d20")
+	=> (dnddice/do-roll (dnddice/parse-roll "1d20"))
 	{:roll {:sides 20, :die-count 1}, :outcome (7), :sum 7}
 
-	=> (dnddice/roll "2d5+1")
+	=> (dnddice/do-roll (dnddice/parse-roll "2d5+1"))
 	{:roll {:modifier 1, :sides 5, :die-count 2}, :outcome (1 4), :sum 6}
 
 (Note that both the die count and the modifier are optional.)

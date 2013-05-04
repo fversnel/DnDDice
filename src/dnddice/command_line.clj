@@ -19,8 +19,11 @@
                       (clojure.string/lower-case))]
       (when (= input-str "exit") (System/exit 0))
       (when-not (empty? input-str)
-        (let [roll-outcome (core/roll input-str)]
-          (if (= roll-outcome :invalid-input-error)
-            (println "Invalid input, try again.")
-            (println (core/pretty-roll-outcome-str render-die-rolls-max roll-outcome))))
+        (try 
+          (let [parsed-roll (core/parse-roll input-str)
+                roll-outcome (core/do-roll parsed-roll)]
+            (println (core/pretty-roll-outcome-str render-die-rolls-max
+                                                   roll-outcome)))
+          (catch IllegalArgumentException _ 
+            (println "Invalid input, try again.")))
         (flush)))))
