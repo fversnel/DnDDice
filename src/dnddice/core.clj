@@ -28,14 +28,14 @@
     (roll-die (sides roll))))
 
 (defn parse-roll 
-  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier -1}) from an
+  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier -1}) from a
   Dungeons and Dragons die roll string (e.g. '1d20'). If the input-str is not
-  a valid DnD roll an :invalid-input-error is returned."
+  a valid DnD roll an IllegalArgumentException is thrown."
   [input-str] 
   (parser/parse-roll input-str))
 
 (defn do-roll 
-  "Performs a a Dungeons and Dragons roll. Returns a map with the roll, the
+  "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome."
   [roll]
   (let [roll-outcome (perform-roll roll)
@@ -52,7 +52,7 @@
   (let [{:keys [outcome sum roll]} roll-outcome]
     (let [modifier-str (modifier-str roll)
           rolls-str (clojure.string/join " " (take die-rolls-max outcome))]
-    (str "(" rolls-str
-         (if (> (count outcome) die-rolls-max) "...")
-         (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
-         " = " sum))))
+      (str "(" rolls-str
+           (if (> (count outcome) die-rolls-max) "...")
+           (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
+           " = " sum))))
