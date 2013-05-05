@@ -3,7 +3,7 @@
 Clojure library that parses Dungeons & Dragons dice rolls (e.g. '1d20' etc.)
 and rolls them.
 
-## Quickstart
+## Usage
 
 Require the following namespace:
 
@@ -24,3 +24,9 @@ You can use the library as follows:
 	{:roll {:modifier 1, :sides 5, :die-count 2}, :outcome (1 4), :sum 6}
 
 (Note that both the die count and the modifier are optional.)
+
+## License
+
+Copyright © 2013 Frank Versnel
+
+Distributed under the Eclipse Public License, the same as Clojure.
