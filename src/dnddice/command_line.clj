@@ -15,8 +15,7 @@
     (print prompt)
     (flush)
     (let [input-str (-> (read-line) 
-                      (clojure.string/trim)
-                      (clojure.string/lower-case))]
+                      (clojure.string/trim))]
       (when (= input-str "exit") (System/exit 0))
       (when-not (empty? input-str)
         (try 

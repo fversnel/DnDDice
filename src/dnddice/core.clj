@@ -1,15 +1,21 @@
 (ns dnddice.core
   (:require [dnddice.parser :as parser]))
 
-(defn modifier [{:keys [modifier]}] (or modifier 0))
+(defn modifier-fn [{:keys [modifier]}] 
+  (if modifier 
+    (let [operator (case (:operator modifier)
+                     "+" +
+                     "-" -
+                     "*" *
+                     "/" /)
+          value (:value modifier)]
+      #(operator % value))
+    identity))
 (defn die-count [{:keys [die-count]}] (or die-count 1))
 (defn sides [{:keys [sides]}] sides)
 
-(defn modifier-str [roll]
-  (let [modifier (modifier roll)]
-    (if (not= modifier 0)
-      (let [operator (if (>= modifier 0) "+")]
-        (str operator modifier)))))
+(defn modifier-str [{:keys [modifier]}]
+  (if modifier (str (:operator modifier) (:value modifier))))
 
 (defn roll-die 
   "Rolls a die of n sides."
@@ -17,9 +23,9 @@
   (+ (rand-int sides) 1))
 
 (defn sum-rolls 
-  "Sums all die rolls and the modifier."
-  [roll-outcome modifier] 
-  (+ (reduce + roll-outcome) modifier))
+  "Sums all die rolls and apply the modifier."
+  [roll-outcome modifier-fn] 
+  (modifier-fn (reduce + roll-outcome)))
 
 (defn perform-roll  
   "Performs a DnD roll. Returns a lazy seq of all die rolls."
@@ -39,7 +45,7 @@
   outcome of the roll and the sum of the outcome."
   [roll]
   (let [roll-outcome (perform-roll roll)
-        summed-outcome (sum-rolls roll-outcome (modifier roll))]
+        summed-outcome (sum-rolls roll-outcome (modifier-fn roll))]
     {:roll roll
      :outcome roll-outcome
      :sum summed-outcome}))
