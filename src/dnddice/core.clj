@@ -34,9 +34,10 @@
     (roll-die (sides roll))))
 
 (defn parse-roll 
-  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier -1}) from a
-  Dungeons and Dragons die roll string (e.g. '1d20'). If the input-str is not
-  a valid DnD roll an IllegalArgumentException is thrown."
+  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier {:operator '-'
+  :value 1}}) from a Dungeons and Dragons die roll string (e.g. '1d20'). If
+  the input-str is not a valid DnD roll an IllegalArgumentException is
+  thrown."
   [input-str] 
   (parser/parse-roll input-str))
 
