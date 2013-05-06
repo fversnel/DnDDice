@@ -13,7 +13,7 @@
      sides = <('d'|'D')> non-zero-integer
      pre-fix-modifier = integer operator
      post-fix-modifier = operator integer
-     operator = '+' | '-' | '/' | '*'
+     <operator> = '+' | '-' | '/' | '*'
 
      non-zero-integer = non-zero-digit integer?
      <non-zero-digit> = #'[1-9]'
@@ -25,7 +25,6 @@
             (vector :modifier {:operator operator :value value}))]
     {:non-zero-integer (comp clojure.edn/read-string str)
      :integer clojure.edn/read-string
-     :operator identity
      :post-fix-modifier #(create-modifier %1 %2)
      :pre-fix-modifier #(create-modifier %2 %1)}))
 

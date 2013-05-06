@@ -5,12 +5,13 @@ and rolls them.
 
 ## Features
 
-* Parsing dice notation, e.g. 'd20' etc. 
+* Parsing dice notation, e.g. 'd20', '2d6+1', '2*5d5' etc. 
 	* Most stuff of the [dice
 	  notation](http://en.wikipedia.org/wiki/Dice_notation) is supported in
 	  the parser.
+	* Parsed rolls are [edn](https://github.com/edn-format/edn) data
+	  structures, so they can be easily serialized.
 * Rolling (parsed) dice. 
-	* Parsed rolls are valid edn so they can be easily serialized.
 
 ## Usage
 
