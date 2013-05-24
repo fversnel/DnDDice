@@ -22,7 +22,7 @@ Require the following namespace:
 
 You can use the library as follows:
 
-	(def dice-d20 (dnddice/parse-roll "d20"))
+	(def dice-d20 (dnddice/parse-roll "d20")) ; {:sides 20}
 
 	=> (dnddice/do-roll dice-d20)
 	{:roll {:sides 20}, :outcome (5), :sum 5}
