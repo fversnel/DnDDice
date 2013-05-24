@@ -22,17 +22,6 @@
   [sides] 
   (+ (rand-int sides) 1))
 
-(defn sum-rolls 
-  "Sums all die rolls and apply the modifier."
-  [roll-outcome modifier-fn] 
-  (modifier-fn (reduce + roll-outcome)))
-
-(defn perform-roll  
-  "Performs a DnD roll. Returns a lazy seq of all die rolls."
-  [roll]
-  (for [_ (range (die-count roll))]
-    (roll-die (sides roll))))
-
 (defn parse-roll 
   "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier {:operator '-'
   :value 1}}) from a Dungeons and Dragons die roll string (e.g. '1d20'). If
@@ -45,8 +34,9 @@
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome."
   [roll]
-  (let [roll-outcome (perform-roll roll)
-        summed-outcome (sum-rolls roll-outcome (modifier-fn roll))]
+  (let [roll-outcome (for [_ (range (die-count roll))]
+                       (roll-die (sides roll)))
+        summed-outcome ((modifier-fn roll) (reduce + roll-outcome))]
     {:roll roll
      :outcome roll-outcome
      :sum summed-outcome}))
