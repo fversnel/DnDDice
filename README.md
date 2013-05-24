@@ -34,8 +34,6 @@ You can use the library as follows:
 	{:roll {:modifier {:operator "+", :value 1}, :sides 5, :die-count 2},
 	 :outcome (1 2), :sum 4}
 
-(Note that both the die count and the modifier are optional.)
-
 ## License
 
 Copyright © 2013 Frank Versnel
