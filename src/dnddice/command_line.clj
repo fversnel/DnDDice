@@ -20,7 +20,7 @@
       (when-not (empty? input-str)
         (try 
           (let [parsed-roll (core/parse-roll input-str)
-                roll-outcome (core/do-roll parsed-roll)]
+                roll-outcome (core/perform-roll parsed-roll)]
             (println (core/pretty-roll-outcome-str render-die-rolls-max
                                                    roll-outcome)))
           (catch IllegalArgumentException _ 

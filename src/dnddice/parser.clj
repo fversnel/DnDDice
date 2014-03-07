@@ -10,18 +10,20 @@
      <dice> = die-count? sides
 
      die-count = integer
-     sides = <('d'|'D')> integer
+     sides = <('d'|'D')> postive-integer
      pre-fix-modifier = integer operator
      post-fix-modifier = operator integer
      <operator> = '+' | '-' | '/' | '*'
 
+     postive-integer = #'[1-9]' integer?
      integer = #'[0-9]'+"))
 
 (def roll-transform-options
   (letfn [(create-modifier [operator value]
-            (vector :modifier {:operator operator :value value}))]
-    {:integer (comp clojure.edn/read-string str)
-     :post-fix-modifier #(create-modifier %1 %2)
+            [:modifier {:operator operator :value value}])]
+    {:postive-integer (comp clojure.edn/read-string str)
+     :integer (comp clojure.edn/read-string str)
+     :post-fix-modifier create-modifier
      :pre-fix-modifier #(create-modifier %2 %1)}))
 
 (defn- to-roll [parse-tree] 
