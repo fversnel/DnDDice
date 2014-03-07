@@ -25,19 +25,14 @@ You can use the library as follows:
 	(def dice-d20 (dnddice/parse-roll "d20")) ; {:sides 20}
 
 	=> (dnddice/do-roll dice-d20)
-	{:roll {:sides 20}, 
-   :outcome (5), 
-   :total 5}
+	{:roll {:sides 20}, :outcome (5), :total 5}
 
 	=> (dnddice/do-roll (dnddice/parse-roll "1d20"))
-	{:roll {:sides 20, :die-count 1} 
-   :outcome (7) 
-   :total 7}
+	{:roll {:sides 20, :die-count 1}, :outcome (7), :total 7}
 
 	=> (dnddice/do-roll (dnddice/parse-roll "2d5+1"))
-	{:roll {:modifier {:operator "+", :value 1}, :sides 5, :die-count 2}
-	 :outcome (1 2)
-   :total 4}
+	{:roll {:modifier {:operator "+", :value 1}, :sides 5, :die-count 2},
+	 :outcome (1 2), :total 4}
 
 ## License
 
