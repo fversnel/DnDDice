@@ -15,7 +15,7 @@
      post-fix-modifier = operator integer
      <operator> = '+' | '-' | '/' | '*'
 
-     postive-integer = #'[1-9]' integer?
+     postive-integer = #'[1-9]' integer*
      integer = #'[0-9]'+"))
 
 (def roll-transform-options
