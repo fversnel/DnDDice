@@ -21,20 +21,22 @@
   [input-str]
   (parser/parse-roll input-str))
 
-(defn secure-random-int-gen 
-  [max]
-  (mod (.nextInt (java.security.SecureRandom.)) max))
+(def secure-random-int-gen
+  (let [random (java.security.SecureRandom.)]
+    (fn [max]
+      (-> random .nextInt (mod max) inc))))
 
 (defn perform-roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome.
   
   Optionally takes a random integer generator as argument to use for rolling.
-  This should be a function that takes one argument which is the maximum
-  number to be generated (exclusive). If it isn't supplied
-  java.security.SecureRandom is used."
+  This should be a function that takes one argument which is the sides of the
+  die to be rolled. The generator should return a number between 1 (inclusive) and
+  the total number of sides on the die (inclusive).
+  If it isn't supplied java.security.SecureRandom is used."
   ([rand-int-gen roll]
-   (let [roll-die #(inc (rand-int-gen (:sides roll)))
+   (let [roll-die (partial rand-int-gen (:sides roll))
          roll-outcome (repeatedly (die-count roll) roll-die)]
      {:roll roll
       :outcome roll-outcome
