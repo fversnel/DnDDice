@@ -21,10 +21,10 @@
   [input-str]
   (parser/parse-roll input-str))
 
-(def secure-random-int-gen
-  (let [random (java.security.SecureRandom.)]
-    (fn [max]
-      (-> random .nextInt (mod max) inc))))
+(defn java-random-int-gen [random max]
+  (-> random .nextInt (mod max) inc))
+
+(def secure-random-int-gen (partial java-random-int-gen (java.security.SecureRandom.)))
 
 (defn perform-roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
