@@ -13,7 +13,7 @@
      sides = <('d'|'D')> postive-integer
      pre-fix-modifier = integer operator
      post-fix-modifier = operator integer
-     <operator> = '+' | '-' | '/' | '*'
+     <operator> = '+' | '-' | '/' | 'x'
 
      postive-integer = #'[1-9]' integer*
      integer = #'[0-9]'+"))

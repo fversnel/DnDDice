@@ -6,7 +6,7 @@
     (let [operator (case (:operator modifier)
                      "+" +
                      "-" -
-                     "*" *
+                     "x" *
                      "/" /)]
       (operator roll-outcome (:value modifier)))
     roll-outcome))
