@@ -15,7 +15,7 @@ and rolls them.
 
 ## To be done
 
-* Support for dice arithmetic (1d20x1d20)
+* Support for dice arithmetic (e.g. '1d20x1d20')
 * Support for percentile dice
 
 ## Installation
