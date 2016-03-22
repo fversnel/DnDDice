@@ -13,6 +13,11 @@ and rolls them.
 	  structures, so they can be easily serialized.
 * Rolling (parsed) dice.
 
+## To be done
+
+* Support for dice arithmetic (1d20x1d20)
+* Support for percentile dice
+
 ## Installation
 
 DnDDice is available as a Maven artifact from Clojars.
