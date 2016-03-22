@@ -5,8 +5,8 @@
 (def roll-parser
   (insta/parser
     "<roll> = (post-fix-roll | pre-fix-roll)
-     <post-fix-roll> = dice (drop-result | post-fix-modifier)?
-     <pre-fix-roll> = pre-fix-modifier? dice
+     <post-fix-roll> = dice post-fix-modifier? drop-result?
+     <pre-fix-roll> = pre-fix-modifier? dice drop-result?
      <dice> = die-count? sides
 
      die-count = integer

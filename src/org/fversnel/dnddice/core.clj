@@ -4,15 +4,15 @@
   (:import (java.util Random)
            (java.security SecureRandom)))
 
-(defn apply-modifier [{:keys [modifier]} roll-outcome]
+(defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
     (let [operator (case (:operator modifier)
                      "+" +
                      "-" -
                      "x" *
                      "/" /)]
-      (operator roll-outcome (:value modifier)))
-    roll-outcome))
+      (partial operator (:value modifier)))
+    identity))
 
 (defn die-count [{:keys [die-count]}] (or die-count 1))
 
@@ -44,15 +44,15 @@
   If it isn't supplied java.security.SecureRandom is used."
   ([rand-int-gen roll]
    (let [roll-die (partial rand-int-gen (:sides roll))
-         roll-outcome (repeatedly (die-count roll) roll-die)
-         _ (println roll-outcome)
-         roll-outcome (case (:drop roll)
-                        :highest (remove-first (comp reverse sort) roll-outcome)
-                        :lowest (remove-first sort roll-outcome)
-                        nil roll-outcome)]
+         die-rolls (repeatedly (die-count roll) roll-die)
+         die-rolls (case (:drop roll)
+                        :highest (remove-first (comp reverse sort) die-rolls)
+                        :lowest (remove-first sort die-rolls)
+                        nil die-rolls)
+         apply-modifier (create-modifier-fn roll)]
      {:roll roll
-      :outcome roll-outcome
-      :total (apply-modifier roll (reduce + roll-outcome))}))
+      :die-rolls die-rolls
+      :total (apply-modifier (reduce + die-rolls))}))
   ([roll] (perform-roll secure-random-int-gen roll)))
 
 (defn roll
@@ -66,12 +66,12 @@
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
   71'. The 'die-rolls-max' variable determines how many die rolls are
   printed."
-  [die-rolls-max {:keys [outcome total roll]}]
+  [die-rolls-max {:keys [die-rolls total roll]}]
   (let [modifier (:modifier roll)
         modifier-str (if modifier
                        (str (:operator modifier) (:value modifier)))
-        rolls-str (clojure.string/join " " (take die-rolls-max outcome))]
+        rolls-str (clojure.string/join " " (take die-rolls-max die-rolls))]
     (str "(" rolls-str
-         (if (> (count outcome) die-rolls-max) "...")
+         (if (> (count die-rolls) die-rolls-max) "...")
          (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
          " = " total)))
