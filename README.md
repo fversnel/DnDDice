@@ -15,7 +15,7 @@ and rolls them.
 
 ## Installation
 
-steam-api-clj is available as a Maven artifact from Clojars.
+DnDDice is available as a Maven artifact from Clojars.
 
 With Leiningen/Boot:
 
