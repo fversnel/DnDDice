@@ -5,7 +5,7 @@ and rolls them.
 
 ## Features
 
-* Parsing dice notation, e.g. 'd20', '2d6+1', '2*5d5' etc. 
+* Parsing dice notation, e.g. 'd20', '2d6+1', '2x5d5' etc.
 	* Most stuff of the [dice
 	  notation](http://en.wikipedia.org/wiki/Dice_notation) is supported in
 	  the parser.
