@@ -1,11 +1,11 @@
 # DnDDice
 
-Clojure library that parses Dungeons & Dragons dice rolls (e.g. '1d20' etc.)
+Clojure library that parses Dungeons & Dragons dice rolls (e.g. `1d20`)
 and rolls them.
 
 ## Features
 
-* Parsing dice notation, e.g. 'd20', '2d6+1', '2x5d5' etc.
+* Parsing dice notation, e.g. `d20`, `2d6+1`, `2x5d5`.
 	* Most stuff of the [dice
 	  notation](http://en.wikipedia.org/wiki/Dice_notation) is supported in
 	  the parser.
@@ -15,7 +15,7 @@ and rolls them.
 
 ## To be done
 
-* Support for dice arithmetic (e.g. '1d20x1d20')
+* Support for dice arithmetic (e.g. `1d20x1d20`)
 * Support for percentile dice
 
 ## Installation
