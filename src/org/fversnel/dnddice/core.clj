@@ -1,6 +1,7 @@
 (ns org.fversnel.dnddice.core
   (:require [org.fversnel.dnddice.parser :as parser])
-  (:import (java.util Random)))
+  (:import (java.util Random)
+           (java.security SecureRandom)))
 
 (defn apply-modifier [{:keys [modifier]} roll-outcome]
   (if modifier
@@ -25,7 +26,7 @@
 (defn java-random-int-gen [^Random random max]
   (-> random .nextInt (mod max) inc))
 
-(def secure-random-int-gen (partial java-random-int-gen (java.security.SecureRandom.)))
+(def secure-random-int-gen (partial java-random-int-gen (SecureRandom.)))
 
 (defn perform-roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
