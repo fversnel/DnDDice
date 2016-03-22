@@ -1,4 +1,4 @@
-(ns dnddice.parser
+(ns org.fversnel.dnddice.parser
   (:require clojure.edn
             [instaparse.core :as insta]))
 
@@ -32,7 +32,7 @@
      (reduce (fn [roll part]
                (assoc roll (first part) (second part))) {} parse-tree)))
 
-(defn parse-roll [input-str]
+(defn parse-roll [^String input-str]
   (->> (roll-parser input-str)
     (insta/transform roll-transform-options)
     (to-roll)))

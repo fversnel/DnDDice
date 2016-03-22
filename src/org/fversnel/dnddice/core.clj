@@ -1,5 +1,6 @@
-(ns dnddice.core
-  (:require [dnddice.parser :as parser]))
+(ns org.fversnel.dnddice.core
+  (:require [org.fversnel.dnddice.parser :as parser])
+  (:import (java.util Random)))
 
 (defn apply-modifier [{:keys [modifier]} roll-outcome]
   (if modifier
@@ -18,10 +19,10 @@
    :value 1}}) from a Dungeons and Dragons die roll string (e.g. '1d20'). If
    the input-str is not a valid DnD roll an IllegalArgumentException is
    thrown."
-  [input-str]
+  [^String input-str]
   (parser/parse-roll input-str))
 
-(defn java-random-int-gen [random max]
+(defn java-random-int-gen [^Random random max]
   (-> random .nextInt (mod max) inc))
 
 (def secure-random-int-gen (partial java-random-int-gen (java.security.SecureRandom.)))
@@ -42,6 +43,13 @@
       :outcome roll-outcome
       :total (apply-modifier roll (reduce + roll-outcome))}))
   ([roll] (perform-roll secure-random-int-gen roll)))
+
+(defn roll
+  "Rolls Dungeons and Dragons dice"
+  ([rand-int-gen ^String input-str]
+   (->> input-str parse-roll (perform-roll rand-int-gen)))
+  ([^String input-str]
+   (roll secure-random-int-gen input-str)))
 
 (defn modifier-str [{:keys [modifier]}]
   (if modifier (str (:operator modifier) (:value modifier))))

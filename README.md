@@ -11,14 +11,24 @@ and rolls them.
 	  the parser.
 	* Parsed rolls are [edn](https://github.com/edn-format/edn) data
 	  structures, so they can be easily serialized.
-* Rolling (parsed) dice. 
+* Rolling (parsed) dice.
+
+## Installation
+
+steam-api-clj is available as a Maven artifact from Clojars.
+
+With Leiningen/Boot:
+
+```clojure
+[org.fversnel/dnddice "2.2.1"]
+```
 
 ## Usage
 
 Require the following namespace:
 
 	(ns example.core
-	  (:require [dnddice.core :as dnddice]))
+	  (:require [org.fversnel.dnddice.core :as dnddice]))
 
 You can use the library as follows:
 
@@ -34,8 +44,12 @@ You can use the library as follows:
 	{:roll {:modifier {:operator "+", :value 1}, :sides 5, :die-count 2},
 	 :outcome (1 2), :total 4}
 
+	; Or roll directly
+	=> (dnddice/roll "1d20")
+	{:roll {:sides 20, :die-count 1}, :outcome (16), :total 16}
+
 ## License
 
-Copyright © 2013 Frank Versnel
+Copyright © 2013-2016 Frank Versnel
 
 Distributed under the Eclipse Public License, the same as Clojure.
