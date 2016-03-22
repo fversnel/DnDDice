@@ -14,15 +14,14 @@
   (while true
     (print prompt)
     (flush)
-    (let [input-str (-> (read-line) 
-                      (clojure.string/trim))]
-      (when (= input-str "exit") (System/exit 0))
+    (let [input-str (-> (read-line) (clojure.string/trim))]
+      (when (#{"exit" "quit"} (clojure.string/lower-case input-str)) (System/exit 0))
       (when-not (empty? input-str)
-        (try 
+        (try
           (let [parsed-roll (core/parse-roll input-str)
                 roll-outcome (core/perform-roll parsed-roll)]
             (println (core/pretty-roll-outcome-str render-die-rolls-max
                                                    roll-outcome)))
-          (catch IllegalArgumentException _ 
+          (catch IllegalArgumentException _
             (println "Invalid input, try again.")))
         (flush)))))
