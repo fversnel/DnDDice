@@ -1,5 +1,6 @@
 (ns org.fversnel.dnddice.core
-  (:require [org.fversnel.dnddice.parser :as parser])
+  (:require [org.fversnel.dnddice.parser :as parser]
+            [org.fversnel.dnddice.util :as util])
   (:import (java.util Random)
            (java.security SecureRandom)))
 
@@ -28,6 +29,10 @@
 
 (def secure-random-int-gen (partial java-random-int-gen (SecureRandom.)))
 
+(defn remove-first [projection coll]
+  (let [first-occurrence (first (projection coll))]
+    (util/remove-first-occurrence coll first-occurrence)))
+
 (defn perform-roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome.
@@ -39,7 +44,12 @@
   If it isn't supplied java.security.SecureRandom is used."
   ([rand-int-gen roll]
    (let [roll-die (partial rand-int-gen (:sides roll))
-         roll-outcome (repeatedly (die-count roll) roll-die)]
+         roll-outcome (repeatedly (die-count roll) roll-die)
+         _ (println roll-outcome)
+         roll-outcome (case (:drop roll)
+                        :highest (remove-first (comp reverse sort) roll-outcome)
+                        :lowest (remove-first sort roll-outcome)
+                        nil roll-outcome)]
      {:roll roll
       :outcome roll-outcome
       :total (apply-modifier roll (reduce + roll-outcome))}))
@@ -52,15 +62,14 @@
   ([^String input-str]
    (roll secure-random-int-gen input-str)))
 
-(defn modifier-str [{:keys [modifier]}]
-  (if modifier (str (:operator modifier) (:value modifier))))
-
 (defn pretty-roll-outcome-str
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
   71'. The 'die-rolls-max' variable determines how many die rolls are
   printed."
   [die-rolls-max {:keys [outcome total roll]}]
-  (let [modifier-str (modifier-str roll)
+  (let [modifier (:modifier roll)
+        modifier-str (if modifier
+                       (str (:operator modifier) (:value modifier)))
         rolls-str (clojure.string/join " " (take die-rolls-max outcome))]
     (str "(" rolls-str
          (if (> (count outcome) die-rolls-max) "...")
