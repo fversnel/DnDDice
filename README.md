@@ -20,7 +20,7 @@ steam-api-clj is available as a Maven artifact from Clojars.
 With Leiningen/Boot:
 
 ```clojure
-[org.fversnel/dnddice "3.0.0"]
+[org.fversnel/dnddice "3.0.1"]
 ```
 
 ## Usage

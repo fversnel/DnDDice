@@ -1,4 +1,4 @@
-(defproject dnddice "3.0.0"
+(defproject org.fversnel/dnddice "3.0.1"
   :description "Clojure library that parses Dungeons & Dragons dice rolls (e.g. '1d20' etc.) and
 rolls them."
   :url "https://github.com/fversnel/DnDDice"
