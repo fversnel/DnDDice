@@ -17,7 +17,7 @@
      <operator> = '+' | '-' | '/' | 'x'
 
      integer-above-zero = #'[1-9][0-9]*'
-     integer = #'[0-9]'+"))
+     integer = #'[0-9]+'"))
 
 (def roll-transform-options
   (letfn [(create-modifier [operator value]
