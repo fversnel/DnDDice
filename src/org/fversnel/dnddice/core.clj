@@ -50,14 +50,15 @@
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome.
 
+  'r' can be either a parsed dice-expression or an unparsed dice-expression.
+
   Optionally takes a random integer generator as argument to use for rolling.
   This should be a function that takes one argument which is the sides of the
   die to be rolled. The generator should return a number between 1 (inclusive) and
   the total number of sides on the die (inclusive).
   If it isn't supplied java.security.SecureRandom is used."
-  ([roll-map] (roll secure-random-int-gen roll-map))
-  ([rand-int-gen roll-map]
-   (let [roll-map (if (string? roll-map) (parse roll-map) roll-map)
+  ([rand-int-gen r]
+   (let [roll-map (if (string? r) (parse r) r)
          roll-die (partial rand-int-gen (:sides roll-map))
          die-rolls (repeatedly (die-count roll-map) roll-die)
          die-rolls (case (:drop roll-map)
@@ -67,7 +68,8 @@
          apply-modifier (create-modifier-fn roll-map)]
      {:roll roll-map
       :die-rolls die-rolls
-      :total (apply-modifier (reduce + die-rolls))})))
+      :total (apply-modifier (reduce + die-rolls))}))
+  ([r] (roll secure-random-int-gen r)))
 
 (defn die-rolls-to-str
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
