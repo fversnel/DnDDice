@@ -11,8 +11,9 @@
         (roll test-rand-int-gen {:sides 20}))))
 
 (deftest complex-roll
-  (let [outcome (roll {:sides 20
-                       :die-count 5
-                       :modifier {:operator '* :value 2}})]
+  (let [outcome (roll test-rand-int-gen
+                  {:sides 20
+                   :die-count 5
+                   :modifier {:operator '* :value 2}})]
     (is (= '(20 20 20 20 20) (:die-rolls outcome))
         (= 200 (:total outcome)))))
