@@ -25,7 +25,7 @@ DnDDice is available as a Maven artifact from Clojars.
 With Leiningen/Boot:
 
 ```clojure
-[org.fversnel/dnddice "3.0.1"]
+[org.fversnel/dnddice "3.0.2"]
 ```
 
 ## Usage
@@ -37,7 +37,7 @@ Require the following namespace:
 
 You can use the library as follows:
 
-	(def dice-d20 (dnddice/parse-roll "d20")) ; {:sides 20}
+	(def dice-d20 (dnddice/parse "d20")) ; {:sides 20}
 
 	=> (dnddice/perform-roll dice-d20)
 	{:roll {:sides 20},
@@ -59,6 +59,16 @@ You can use the library as follows:
 	{:roll {:sides 20, :die-count 1},
 	 :die-rolls (16),
 	 :total 16}
+
+	; Drop highest result
+	(dnddice/roll "5d10-H") ; Use -L for drop lowest
+	{:roll {:die-count 5, :sides 10, :drop :highest},
+	 :die-rolls (7 5 9 9),
+	 :total 30}
+
+	; Parse and then re-construct
+	=> (dnddice/dice-expression (dnddice/parse "5d20+10"))
+	"5d20+10"
 
 ## License
 

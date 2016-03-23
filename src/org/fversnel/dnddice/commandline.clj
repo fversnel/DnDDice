@@ -5,7 +5,7 @@
 (def opening (str "Examples: 1d20 2d6+1 5d6-1\n"
                   "type 'exit' to stop."))
 (def prompt "DnDDice> ")
-(def render-die-rolls-max 20)
+(def max-renderable-die-rolls 20)
 
 (defn -main
   [& args]
@@ -17,10 +17,9 @@
       (when (#{"exit" "quit"} (clojure.string/lower-case input-str)) (System/exit 0))
       (when-not (empty? input-str)
         (try
-          (let [parsed-roll (core/parse-roll input-str)
-                roll-outcome (core/perform-roll parsed-roll)]
-            (println (core/pretty-roll-outcome-str render-die-rolls-max
-                                                   roll-outcome)))
+          (let [dice-roll (core/roll input-str)]
+            (println (core/die-rolls-to-str max-renderable-die-rolls
+                                            dice-roll)))
           (catch IllegalArgumentException _
             (println "Invalid input, try again.")))
         (flush)))))

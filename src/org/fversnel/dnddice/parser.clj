@@ -36,7 +36,7 @@
      (reduce (fn [roll part]
                (assoc roll (first part) (second part))) {} parse-tree)))
 
-(defn parse-roll [^String input-str]
+(defn parse [^String input-str]
   (->> (roll-parser input-str)
     (insta/transform roll-transform-options)
     (to-roll)))
