@@ -34,12 +34,17 @@
 
 (defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
-    (partial (eval (:operator modifier)) (:value modifier))
+    (partial (eval (symbol (:operator modifier))) (:value modifier))
     identity))
 
 (defn modifier-to-str [modifier]
   (when modifier
-    (str (:operator modifier) (:value modifier))))
+    (str (case (:operator modifier)
+           '+ "+"
+           '- "-"
+           '* "x"
+           '/ "/")
+         (:value modifier))))
 
 (defn perform-roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
