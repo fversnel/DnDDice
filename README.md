@@ -37,19 +37,19 @@ Require the following namespace:
 
 You can use the library as follows:
 
-	(def dice-d20 (dnddice/parse "d20")) ; {:sides 20}
+	(def d20 (dnddice/parse "d20")) ; {:sides 20}
 
-	=> (dnddice/perform-roll dice-d20)
+	=> (dnddice/roll d20)
 	{:roll {:sides 20},
 	 :die-rolls (5),
 	 :total 5}
 
-	=> (dnddice/perform-roll (dnddice/parse-roll "1d20"))
+	=> (dnddice/roll (dnddice/parse "1d20"))
 	{:roll {:sides 20, :die-count 1},
 	 :die-rolls (7),
 	 :total 7}
 
-	=> (dnddice/perform-roll (dnddice/parse-roll "2d5+1"))
+	=> (dnddice/roll (dnddice/parse "2d5+1"))
 	{:roll {:modifier {:operator '+, :value 1}, :sides 5, :die-count 2},
 	 :die-rolls (1 2),
 	 :total 4}

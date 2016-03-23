@@ -39,14 +39,14 @@
 
 (defn modifier-to-str [modifier]
   (when modifier
-    (str (case (:operator modifier)
+    (str (condp = (:operator modifier)
            '+ "+"
            '- "-"
            '* "x"
            '/ "/")
          (:value modifier))))
 
-(defn perform-roll
+(defn roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
   outcome of the roll and the sum of the outcome.
 
@@ -55,25 +55,19 @@
   die to be rolled. The generator should return a number between 1 (inclusive) and
   the total number of sides on the die (inclusive).
   If it isn't supplied java.security.SecureRandom is used."
-  ([rand-int-gen roll]
-   (let [roll-die (partial rand-int-gen (:sides roll))
-         die-rolls (repeatedly (die-count roll) roll-die)
-         die-rolls (case (:drop roll)
+  ([roll-map] (roll secure-random-int-gen roll-map))
+  ([rand-int-gen roll-map]
+   (let [roll-map (if (string? roll-map) (parse roll-map) roll-map)
+         roll-die (partial rand-int-gen (:sides roll-map))
+         die-rolls (repeatedly (die-count roll-map) roll-die)
+         die-rolls (case (:drop roll-map)
                      :highest (util/remove-first (comp reverse sort) die-rolls)
                      :lowest (util/remove-first sort die-rolls)
                      die-rolls)
-         apply-modifier (create-modifier-fn roll)]
-     {:roll roll
+         apply-modifier (create-modifier-fn roll-map)]
+     {:roll roll-map
       :die-rolls die-rolls
-      :total (apply-modifier (reduce + die-rolls))}))
-  ([roll] (perform-roll secure-random-int-gen roll)))
-
-(defn roll
-  "Rolls Dungeons and Dragons dice"
-  ([rand-int-gen ^String input-str]
-   (->> input-str parse (perform-roll rand-int-gen)))
-  ([^String input-str]
-   (roll secure-random-int-gen input-str)))
+      :total (apply-modifier (reduce + die-rolls))})))
 
 (defn die-rolls-to-str
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
