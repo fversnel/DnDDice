@@ -16,7 +16,6 @@ and rolls them.
 ## To be done
 
 * Support for dice arithmetic (e.g. `1d20x1d20`)
-* Support for percentile dice
 
 ## Installation
 
@@ -65,6 +64,10 @@ You can use the library as follows:
 	{:roll {:die-count 5, :sides 10, :drop :highest},
 	 :die-rolls (7 5 9 9),
 	 :total 30}
+
+	; Roll percentile dice
+	=> (dnddice/roll "d%")
+    {:roll {:sides "%"}, :die-rolls (79), :total 79}
 
 	; Parse and then re-construct
 	=> (dnddice/dice-expression (dnddice/parse "5d20+10"))

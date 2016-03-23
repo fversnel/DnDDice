@@ -17,3 +17,6 @@
                    :modifier {:operator '* :value 2}})]
     (is (= '(20 20 20 20 20) (:die-rolls outcome))
         (= 200 (:total outcome)))))
+
+(deftest percentile-roll
+  (is (= 100 (:total (roll test-rand-int-gen "d%")))))

@@ -10,7 +10,7 @@
      <dice> = die-count? sides
 
      die-count = integer-above-zero
-     sides = <('d'|'D')> integer-above-zero
+     sides = <('d'|'D')> (integer-above-zero | '%')
      drop-roll = <'-'> ('L' | 'H')
      pre-fix-modifier = integer operator
      post-fix-modifier = operator integer

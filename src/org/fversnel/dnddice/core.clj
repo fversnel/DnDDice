@@ -32,6 +32,10 @@
 
 (defn die-count [{:keys [die-count]}] (or die-count 1))
 
+(defn sides [{:keys [sides]}]
+  (cond (integer? sides) sides
+        (= sides "%") 100))
+
 (defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
     (partial (eval (symbol (:operator modifier))) (:value modifier))
@@ -59,7 +63,7 @@
   If it isn't supplied java.security.SecureRandom is used."
   ([rand-int-gen r]
    (let [roll-map (if (string? r) (parse r) r)
-         roll-die (partial rand-int-gen (:sides roll-map))
+         roll-die (partial rand-int-gen (sides roll-map))
          die-rolls (repeatedly (die-count roll-map) roll-die)
          die-rolls (case (:drop roll-map)
                      :highest (util/remove-first (comp reverse sort) die-rolls)

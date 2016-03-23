@@ -2,10 +2,10 @@
   (:require [org.fversnel.dnddice.core :as core])
   (:gen-class))
 
-(def opening (str "Examples: 1d20 2d6+1 5d6-1\n"
-                  "type 'exit' to stop."))
-(def prompt "DnDDice> ")
-(def max-renderable-die-rolls 20)
+(def ^:const opening (str "Examples: 1d20 2d6+1 5d6-1\n"
+                          "type 'exit' or 'quit' to stop."))
+(def ^:const prompt "DnDDice> ")
+(def ^:const max-renderable-die-rolls 20)
 
 (defn -main
   [& args]

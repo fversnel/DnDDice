@@ -33,3 +33,6 @@
           :modifier {:operator '- :value 5}
           :drop :highest}
          (parse "10d15-5-H"))))
+
+(deftest d%
+  (is (= {:sides "%"} (parse "d%"))))
