@@ -50,7 +50,7 @@ You can use the library as follows:
 	 :total 7}
 
 	=> (dnddice/perform-roll (dnddice/parse-roll "2d5+1"))
-	{:roll {:modifier {:operator "+", :value 1}, :sides 5, :die-count 2},
+	{:roll {:modifier {:operator '+, :value 1}, :sides 5, :die-count 2},
 	 :die-rolls (1 2),
 	 :total 4}
 

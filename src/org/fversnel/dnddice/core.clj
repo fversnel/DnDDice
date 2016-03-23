@@ -34,12 +34,7 @@
 
 (defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
-    (let [operator (case (:operator modifier)
-                     "+" +
-                     "-" -
-                     "x" *
-                     "/" /)]
-      (partial operator (:value modifier)))
+    (partial (eval (:operator modifier)) (:value modifier))
     identity))
 
 (defn modifier-to-str [modifier]
