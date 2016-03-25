@@ -31,47 +31,51 @@ With Leiningen/Boot:
 
 Require the following namespace:
 
-	(ns example.core
-	  (:require [org.fversnel.dnddice.core :as dnddice]))
+```clojure
+(ns example.core
+  (:require [org.fversnel.dnddice.core :as dnddice]))
+```
 
 You can use the library as follows:
 
-	(def d20 (dnddice/parse "d20")) ; {:sides 20}
+```clojure
+(def d20 (dnddice/parse "d20")) ; {:sides 20}
 
-	=> (dnddice/roll d20)
-	{:roll {:sides 20},
-	 :die-rolls (5),
-	 :total 5}
+=> (dnddice/roll d20)
+{:roll {:sides 20},
+ :die-rolls (5),
+ :total 5}
 
-	=> (dnddice/roll (dnddice/parse "1d20"))
-	{:roll {:sides 20, :die-count 1},
-	 :die-rolls (7),
-	 :total 7}
+=> (dnddice/roll (dnddice/parse "1d20"))
+{:roll {:sides 20, :die-count 1},
+ :die-rolls (7),
+ :total 7}
 
-	=> (dnddice/roll (dnddice/parse "2d5+1"))
-	{:roll {:modifier {:operator '+, :value 1}, :sides 5, :die-count 2},
-	 :die-rolls (1 2),
-	 :total 4}
+=> (dnddice/roll (dnddice/parse "2d5+1"))
+{:roll {:modifier {:operator '+, :value 1}, :sides 5, :die-count 2},
+ :die-rolls (1 2),
+ :total 4}
 
-	; Or roll directly
-	=> (dnddice/roll "1d20")
-	{:roll {:sides 20, :die-count 1},
-	 :die-rolls (16),
-	 :total 16}
+; Or roll directly
+=> (dnddice/roll "1d20")
+{:roll {:sides 20, :die-count 1},
+ :die-rolls (16),
+ :total 16}
 
-	; Drop highest result
-	(dnddice/roll "5d10-H") ; Use -L for drop lowest
-	{:roll {:die-count 5, :sides 10, :drop :highest},
-	 :die-rolls (7 5 9 9),
-	 :total 30}
+; Drop highest result
+(dnddice/roll "5d10-H") ; Use -L for drop lowest
+{:roll {:die-count 5, :sides 10, :drop :highest},
+ :die-rolls (7 5 9 9),
+ :total 30}
 
-	; Roll percentile dice
-	=> (dnddice/roll "d%")
-    {:roll {:sides "%"}, :die-rolls (79), :total 79}
+; Roll percentile dice
+=> (dnddice/roll "d%")
+{:roll {:sides "%"}, :die-rolls (79), :total 79}
 
-	; Parse and then re-construct
-	=> (dnddice/dice-expression (dnddice/parse "5d20+10"))
-	"5d20+10"
+; Parse and then re-construct
+=> (dnddice/dice-expression (dnddice/parse "5d20+10"))
+"5d20+10"
+```
 
 ## License
 
