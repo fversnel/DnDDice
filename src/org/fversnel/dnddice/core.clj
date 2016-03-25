@@ -6,7 +6,7 @@
 
 (defn parse
   "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier {:operator '-'
-   :value 1}}) from a Dungeons and Dragons die roll string (e.g. '5d20-1'). If
+   :value 1}}) from a Dungeons and Dragons dice expression (e.g. '5d20-1'). If
    the input-str is not a valid DnD roll an IllegalArgumentException is
    thrown."
   [^String input-str]
@@ -38,7 +38,7 @@
 
 (defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
-    (partial (eval (symbol (:operator modifier))) (:value modifier))
+    (partial (eval (:operator modifier)) (:value modifier))
     identity))
 
 (defn modifier-to-str [modifier]
