@@ -12,20 +12,6 @@
   [^String input-str]
   (parser/parse input-str))
 
-(declare modifier-to-str)
-
-(defn dice-expression
-  "Creates a dice expression from a roll map"
-  [roll]
-  (let [die-count (:die-count roll)]
-    (str (when die-count die-count)
-         "d" (:sides roll)
-         (modifier-to-str (:modifier roll))
-         (case (:drop roll)
-           :highest "-H"
-           :lowest "-L"
-           ""))))
-
 (defn java-random-int-gen [^Random random max]
   (-> random .nextInt (mod max) inc))
 (def secure-random-int-gen (partial java-random-int-gen (SecureRandom.)))
@@ -35,20 +21,6 @@
 (defn sides [{:keys [sides]}]
   (cond (integer? sides) sides
         (= sides "%") 100))
-
-(defn create-modifier-fn [{:keys [modifier]}]
-  (if modifier
-    (partial (eval (:operator modifier)) (:value modifier))
-    identity))
-
-(defn modifier-to-str [modifier]
-  (when modifier
-    (str (condp = (:operator modifier)
-           '+ "+"
-           '- "-"
-           '* "x"
-           '/ "/")
-         (:value modifier))))
 
 (defn roll
   "Performs a Dungeons and Dragons roll. Returns a map with the roll, the
@@ -75,14 +47,21 @@
       :total (apply-modifier (reduce + die-rolls))}))
   ([r] (roll secure-random-int-gen r)))
 
+(defn roll2 [rand-int-gen parsed-dice-expr]
+  (letfn [(evaluate-part [[id content]]
+            (case id
+              :dice (partial rand-int-gen (sides content))
+              :value content))]
+    ; Loop over the parsed-dice-expr
+    ; Extract the first part
+    ))
+
 (defn die-rolls-to-str
   "Creates a pretty string of the roll's outcome, e.g. '(12 10 7 17 20 (+5)) =
   71'. The 'max-die-rolls' variable determines how many die rolls are
   printed."
   [max-die-rolls {:keys [die-rolls total roll]}]
-  (let [modifier-str (modifier-to-str (:modifier roll))
-        rolls-str (clojure.string/join " " (take max-die-rolls die-rolls))]
+  (let [rolls-str (clojure.string/join " " (take max-die-rolls die-rolls))]
     (str "(" rolls-str
          (if (> (count die-rolls) max-die-rolls) "...")
-         (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
          " = " total)))
