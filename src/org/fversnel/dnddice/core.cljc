@@ -4,61 +4,60 @@
             [clojure.string]))
 
 #?(:clj
-   (defn java-random-int-gen 
+   (defn java-random-int-gen
      [^java.util.Random random max]
      (inc (mod (.nextInt random) max))))
 
 #?(:clj
-   (defn secure-random-int-gen 
+   (defn secure-random-int-gen
      [max]
      (java-random-int-gen (java.security.SecureRandom.) max)))
 
-(defn default-rand-int-gen 
+(defn default-rand-int-gen
   [max]
   (inc (rand-int max)))
 
 (defn parse
-  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier {:operator '-'
+  "Creates a roll map (e.g. {:die-count 5 :sides 20 :modifier {:operator '-
    :value 1}}) from a Dungeons and Dragons dice expression (e.g. '5d20-1'). If
-   the input-str is not a valid DnD roll an IllegalArgumentException is
-   thrown."
+   the input-str is not a valid DnD roll an instaparse failure object is returned."
   [input-str]
   (parser/parse input-str))
 
-(defn modifier-to-str 
-  [modifier]
-  (when modifier
-    (str (condp = (:operator modifier)
-           '+ "+"
-           '- "-"
-           '* "x"
-           '/ "/")
-         (:value modifier))))
+(def parse-failure? parser/failure?)
+
+(defn modifier-to-str
+  [{:keys [operator value]}]
+  (str
+   (cond
+     (= operator '*) "x"
+     :else (str operator))
+   value))
 
 (defn dice-expression
   "Creates a dice expression from a roll map"
-  [roll]
-  (let [die-count (:die-count roll)]
-    (str (when die-count die-count)
-         "d" (:sides roll)
-         (modifier-to-str (:modifier roll))
-         (case (:drop roll)
-           :highest "-H"
-           :lowest "-L"
-           ""))))
+  [{:keys [die-count sides modifier drop]}]
+  (str die-count
+       "d" sides
+       (modifier-to-str modifier)
+       (case drop
+         :highest "-H"
+         :lowest "-L"
+         "")))
 
-(defn die-count 
-  [{:keys [die-count]}] 
+(defn die-count
+  [{:keys [die-count]}]
   (or die-count 1))
 
-(defn sides 
+(defn sides
   [{:keys [sides]}]
-  (cond (integer? sides) sides
-        (= sides "%") 100))
+  (cond
+    (integer? sides) sides
+    (= sides "%") 100))
 
 (defn create-modifier-fn [{:keys [modifier]}]
   (if modifier
-    (partial (eval (:operator modifier)) (:value modifier))
+    (partial (resolve (:operator modifier)) (:value modifier))
     identity))
 
 (defn roll
@@ -73,18 +72,20 @@
   the total number of sides on the die (inclusive).
   If it isn't supplied Clojure's rand-int function is used."
   ([rand-int-gen r]
-   (let [roll-map (if (string? r) (parse r) r)
-         roll-die (partial rand-int-gen (sides roll-map))
-         die-rolls (repeatedly (die-count roll-map) roll-die)
-         die-rolls (case (:drop roll-map)
-                     :highest (util/remove-first (comp reverse sort) die-rolls)
-                     :lowest (util/remove-first sort die-rolls)
-                     die-rolls)
-         apply-modifier (create-modifier-fn roll-map)]
-     {:roll roll-map
-      :die-rolls die-rolls
-      :total (apply-modifier (reduce + die-rolls))}))
-  ([r] 
+   (let [roll-map (if (string? r) (parse r) r)]
+     (if-not (parse-failure? roll-map)
+       (let [roll-die (partial rand-int-gen (sides roll-map))
+             die-rolls (repeatedly (die-count roll-map) roll-die)
+             die-rolls (case (:drop roll-map)
+                         :highest (util/remove-first (comp reverse sort) die-rolls)
+                         :lowest (util/remove-first sort die-rolls)
+                         die-rolls)
+             apply-modifier (create-modifier-fn roll-map)]
+         {:roll roll-map
+          :die-rolls die-rolls
+          :total (apply-modifier (reduce + die-rolls))})
+       roll-map)))
+  ([r]
    (roll default-rand-int-gen r)))
 
 (defn die-rolls-to-str

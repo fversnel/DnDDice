@@ -1,4 +1,4 @@
-(defproject org.fversnel/dnddice "4.0.0"
+(defproject org.fversnel/dnddice "4.1.0-SNAPSHOT"
   :description "Clojure library that parses Dungeons & Dragons dice rolls (e.g. '1d20' etc.) and
 rolls them."
   :url "https://github.com/fversnel/DnDDice"
@@ -9,4 +9,4 @@ rolls them."
   :main org.fversnel.dnddice.commandline
   :aot [org.fversnel.dnddice.commandline]
   :deploy-repositories [["releases" :clojars]
-                         ["snapshots" :clojars]])
+                        ["snapshots" :clojars]])

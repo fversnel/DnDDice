@@ -15,13 +15,12 @@
     (print prompt)
     (flush)
     (let [input-str (clojure.string/trim (read-line))]
-      (when (#{"exit" "quit"} (clojure.string/lower-case input-str)) 
+      (when (#{"exit" "quit"} (clojure.string/lower-case input-str))
         (System/exit 0))
       (when-not (empty? input-str)
-        (try
-          (let [dice-roll (core/roll input-str)]
-            (println (core/die-rolls-to-str max-renderable-die-rolls
-                                            dice-roll)))
-          (catch IllegalArgumentException _
-            (println "Invalid input, try again.")))
+        (let [dice-roll (core/roll input-str)]
+          (if-not (core/parse-failure? dice-roll)
+          (println (core/die-rolls-to-str max-renderable-die-rolls
+                                          dice-roll))
+            (println)))
         (flush)))))
