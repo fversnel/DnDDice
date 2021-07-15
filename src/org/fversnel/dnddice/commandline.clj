@@ -14,8 +14,9 @@
   (while true
     (print prompt)
     (flush)
-    (let [input-str (-> (read-line) (clojure.string/trim))]
-      (when (#{"exit" "quit"} (clojure.string/lower-case input-str)) (System/exit 0))
+    (let [input-str (clojure.string/trim (read-line))]
+      (when (#{"exit" "quit"} (clojure.string/lower-case input-str)) 
+        (System/exit 0))
       (when-not (empty? input-str)
         (try
           (let [dice-roll (core/roll input-str)]
