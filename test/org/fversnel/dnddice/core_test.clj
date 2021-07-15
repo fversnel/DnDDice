@@ -1,6 +1,6 @@
 (ns org.fversnel.dnddice.core-test
-  (:use clojure.test
-        org.fversnel.dnddice.core))
+  (:require [clojure.test :refer [deftest is]]
+            [org.fversnel.dnddice.core :as dnddice]))
 
 (defn test-rand-int-gen [n] n)
 
@@ -8,10 +8,10 @@
   (is (= {:roll {:sides 20}
           :die-rolls '(20)
           :total 20}
-        (roll test-rand-int-gen {:sides 20}))))
+        (dnddice/roll test-rand-int-gen {:sides 20}))))
 
 (deftest complex-roll
-  (let [outcome (roll test-rand-int-gen
+  (let [outcome (dnddice/roll test-rand-int-gen
                   {:sides 20
                    :die-count 5
                    :modifier {:operator '* :value 2}})]
@@ -19,4 +19,4 @@
         (= 200 (:total outcome)))))
 
 (deftest percentile-roll
-  (is (= 100 (:total (roll test-rand-int-gen "d%")))))
+  (is (= 100 (:total (dnddice/roll test-rand-int-gen "d%")))))

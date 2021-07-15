@@ -1,16 +1,15 @@
 # DnDDice
 
-Clojure library that parses Dungeons & Dragons dice rolls (e.g. `1d20`)
+Clojure(script) library that parses Dungeons & Dragons dice rolls (e.g. `1d20`)
 and rolls them.
 
 ## Features
 
 * Parsing dice notation, e.g. `d20`, `2d6+1`, `2x5d5`.
-	* Most stuff of the [dice
-	  notation](http://en.wikipedia.org/wiki/Dice_notation) is supported in
+	* Most stuff of the [dice notation](http://en.wikipedia.org/wiki/Dice_notation) is supported in
 	  the parser.
 	* Parsed rolls are [edn](https://github.com/edn-format/edn) data
-	  structures, so they can be easily serialized.
+	  structures, so they can be serialized.
 * Rolling (parsed) dice.
 
 ## To be done
@@ -22,6 +21,12 @@ and rolls them.
 ## Installation
 
 DnDDice is available as a Maven artifact from Clojars.
+
+With deps.edn:
+
+```clojure
+{org.fversnel/dnddice {:mvn/version "3.0.3"}}
+```
 
 With Leiningen/Boot:
 
@@ -81,6 +86,6 @@ You can use the library as follows:
 
 ## License
 
-Copyright © 2013-2016 Frank Versnel
+Copyright © 2013-2021 Frank Versnel
 
 Distributed under the Eclipse Public License, the same as Clojure.

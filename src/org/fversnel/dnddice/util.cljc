@@ -6,6 +6,7 @@
   (let [[n m] (split-with (partial not= element) coll)]
     (concat n (rest m))))
 
-(defn remove-first [projection coll]
+(defn remove-first 
+  [projection coll]
   (let [first-occurrence (first (projection coll))]
     (remove-first-occurrence coll first-occurrence)))

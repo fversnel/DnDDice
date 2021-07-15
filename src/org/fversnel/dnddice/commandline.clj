@@ -1,5 +1,6 @@
 (ns org.fversnel.dnddice.commandline
-  (:require [org.fversnel.dnddice.core :as core])
+  (:require [org.fversnel.dnddice.core :as core]
+            [clojure.string])
   (:gen-class))
 
 (def ^:const opening (str "Examples: 1d20 2d6+1 5d6-1\n"

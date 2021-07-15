@@ -1,6 +1,9 @@
 (ns org.fversnel.dnddice.parser
-  (:require [clojure.edn :as edn]
-            [instaparse.core :as insta]))
+  (:require [instaparse.core :as insta]))
+
+(defn- parse-int [s]
+  #?(:clj (Integer/parseInt s)
+     :cljs (js/parseInt s)))
 
 (def roll-parser
   (insta/parser
@@ -27,21 +30,24 @@
                                     "x" '*
                                     "/" '/)
                         :value value}])]
-    {:integer-above-zero edn/read-string
-     :integer edn/read-string
+    {:integer-above-zero parse-int
+     :integer parse-int
      :post-fix-modifier create-modifier
      :pre-fix-modifier #(create-modifier %2 %1)
      :drop-roll #(case %
                    "L" [:drop :lowest]
                    "H" [:drop :highest])}))
 
-(defn- to-roll [parse-tree] 
+(defn- to-roll 
+  [parse-tree] 
    (if (insta/failure? parse-tree)
-     (throw (IllegalArgumentException. "Failed to parse roll."))
+     (throw (IllegalArgumentException. (str "Failed to parse roll for parse tree: " parse-tree)))
      (reduce (fn [roll part]
                (assoc roll (first part) (second part))) {} parse-tree)))
 
-(defn parse [^String input-str]
-  (->> (roll-parser input-str)
-    (insta/transform roll-transform-options)
-    (to-roll)))
+(defn parse 
+  [input-str]
+  (to-roll
+   (insta/transform 
+    roll-transform-options
+    (roll-parser input-str))))
