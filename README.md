@@ -25,13 +25,13 @@ DnDDice is available as a Maven artifact from Clojars.
 With deps.edn:
 
 ```clojure
-{org.fversnel/dnddice {:mvn/version "4.0.0"}}
+{org.fversnel/dnddice {:mvn/version "4.1.0"}}
 ```
 
 With Leiningen/Boot:
 
 ```clojure
-[org.fversnel/dnddice "4.0.0"]
+[org.fversnel/dnddice "4.1.0"]
 ```
 
 ## Usage
