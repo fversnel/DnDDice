@@ -97,5 +97,13 @@
         rolls-str (clojure.string/join " " (take max-die-rolls die-rolls))]
     (str "(" rolls-str
          (when (> (count die-rolls) max-die-rolls) "...")
-         (if-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
+         (when-not (empty? modifier-str) (str " (" modifier-str ")")) ")"
          " = " total)))
+
+(comment
+  
+  (require '[org.fversnel.dnddice.core :as dnd])
+
+  (dnd/parse "5d20+6")
+  (dnd/roll "5d20+6")
+  )
