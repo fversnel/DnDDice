@@ -1,3 +1,5 @@
+**Project was moved to: https://codeberg.org/fversnel/DnDDice**
+
 # DnDDice
 
 Clojure(script) library that parses Dungeons & Dragons dice rolls (e.g. `1d20`)
